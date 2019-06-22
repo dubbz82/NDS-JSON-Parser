@@ -68,12 +68,18 @@
             this.dgvSDCardTesters = new System.Windows.Forms.DataGridView();
             this.label14 = new System.Windows.Forms.Label();
             this.lblAdditionalNotes = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pboxArtwork = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlieses)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.pnlGameInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSDCardTesters)).BeginInit();
+            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxArtwork)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -105,6 +111,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.pboxArtwork);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.dgvAlieses);
             this.groupBox1.Controls.Add(this.lblAntiPiracy);
@@ -470,6 +477,39 @@
             this.lblAdditionalNotes.Size = new System.Drawing.Size(0, 13);
             this.lblAdditionalNotes.TabIndex = 19;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1085, 24);
+            this.menuStrip1.TabIndex = 6;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openRomToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openRomToolStripMenuItem
+            // 
+            this.openRomToolStripMenuItem.Name = "openRomToolStripMenuItem";
+            this.openRomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openRomToolStripMenuItem.Text = "Open Rom";
+            this.openRomToolStripMenuItem.Click += new System.EventHandler(this.openRomToolStripMenuItem_Click);
+            // 
+            // pboxArtwork
+            // 
+            this.pboxArtwork.Location = new System.Drawing.Point(850, 19);
+            this.pboxArtwork.Name = "pboxArtwork";
+            this.pboxArtwork.Size = new System.Drawing.Size(174, 172);
+            this.pboxArtwork.TabIndex = 7;
+            this.pboxArtwork.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -479,7 +519,9 @@
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtGameID);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "NDS Api Frontend by dubbz82";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -491,6 +533,9 @@
             this.groupBox3.PerformLayout();
             this.pnlGameInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSDCardTesters)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxArtwork)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -537,6 +582,10 @@
         private System.Windows.Forms.DataGridView dgvSDCardTesters;
         private System.Windows.Forms.Label lblAdditionalNotes;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openRomToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pboxArtwork;
     }
 }
 

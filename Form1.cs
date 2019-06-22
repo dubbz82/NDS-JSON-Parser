@@ -16,7 +16,7 @@ namespace NDS_JSON_Parser
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            fileToolStripMenuItem.Visible = false; //For now..This is currently broken.  
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -222,17 +222,20 @@ namespace NDS_JSON_Parser
                     }
                     //everything's good so far, show the panel...
                     pnlGameInfo.Show();
+                    //try and populate the coverart if we can..
+                    getCoverart(gameID);
                     
                 }
-                catch
+                catch (Exception ex)
                 {
-                    if (e.ToString() == "System.Windows.Forms.MouseEventArgs")
+
+                    if (ex.ToString().Contains("(404)"))
                     {
                         MessageBox.Show("Game ID not Found!");
                     }
                     else
                     {
-                        MessageBox.Show("Error Occurred: " + e.ToString());
+                        MessageBox.Show("Error Occurred: " + ex.ToString());
                     }
                     
                 }
@@ -243,6 +246,131 @@ namespace NDS_JSON_Parser
                 MessageBox.Show("Please Enter a Game ID!");
             }
             
+        }
+
+
+        private bool DownloadCoverArt(string gameID, string CountryCode)
+        {
+            try
+            {
+                using (WebClient myWebClient = new WebClient())
+                {
+                    string myStringWebResource = "https://art.gametdb.com/ds/coverDS/" + CountryCode + "/" + gameID + ".bmp";
+                    // Download the Web resource and save it into the current filesystem folder.
+                    System.IO.Directory.CreateDirectory("Coverart");
+                    myWebClient.DownloadFile(myStringWebResource, "Coverart/" + gameID);
+                }
+                return true;
+            }
+            
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        private void getCoverart(string gameID)
+        {
+            //try and grab coverart locally first, if that fails grab it from https://art.gametdb.com/ds/coverDS/%s/%s.bmp
+            try
+            {
+                pboxArtwork.Image = Image.FromFile("Coverart/" + gameID + ".bmp");
+                
+            }
+            catch (Exception e)
+            {
+                //no coverart exists, try and pull it from gametdb..
+                bool coverartdownload = false; //track if coverart is successfully downloaded..
+                coverartdownload = DownloadCoverArt(gameID, "US");
+                if (coverartdownload == false)
+                {
+                    //fall through to next..there's probably much better ways of doing this...
+                    coverartdownload = DownloadCoverArt(gameID, "FR");
+                    if (coverartdownload == false)
+                    {
+                        coverartdownload = DownloadCoverArt(gameID, "DE");
+                        if (coverartdownload == false)
+                        {
+                            coverartdownload = DownloadCoverArt(gameID, "IT");
+                            if (coverartdownload == false)
+                            {
+                                coverartdownload = DownloadCoverArt(gameID, "ES");
+                                if (coverartdownload == false)
+                                {
+                                    coverartdownload = DownloadCoverArt(gameID, "ZHCN");
+                                    if (coverartdownload == false)
+                                    {
+                                        coverartdownload = DownloadCoverArt(gameID, "KO");
+                                        if (coverartdownload == false)
+                                        {
+                                            coverartdownload = DownloadCoverArt(gameID, "JA");
+                                            if (coverartdownload == false)
+                                            {
+                                                coverartdownload = DownloadCoverArt(gameID, "NL");
+                                                if (coverartdownload == false)
+                                                {
+                                                    coverartdownload = DownloadCoverArt(gameID, "RU");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (coverartdownload == true)
+                {
+                    pboxArtwork.Image = new Bitmap("Coverart/" + gameID);
+                }
+                
+
+            }
+        }
+        private void openRomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog d = new OpenFileDialog();
+            d.Filter = "Nintendo DS Roms(*.nds)|*.nds";
+            d.Multiselect = false;
+            DialogResult r = d.ShowDialog();
+            if (r == DialogResult.OK)
+            {
+                string fpath = d.FileName;
+                string gameID = "";
+                using (System.IO.BinaryReader b = new System.IO.BinaryReader(System.IO.File.Open(fpath, System.IO.FileMode.Open)))
+                {
+
+                    //TODO: Fix this.  It doesn't work as expected...idea is to read in the bytes at positions 0x0000000c-0x0000000f and write out the character values, then pull them into the search box and perform the search function.
+                    int pos = 10;
+                    int length = 15;
+                    byte[] tmp = b.ReadBytes(16);
+                    try
+                    {
+                        while (pos <=length)
+                        {
+                            switch(pos)
+                            {
+                                case 12:
+                                case 13:
+                                case 14:
+                                case 15:
+                                    gameID += BitConverter.ToString(tmp,pos);
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                                
+
+                            pos = pos + 1;
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Could not get Game ID!");
+                    }
+                }
+            }
         }
     }
 }
