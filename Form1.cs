@@ -258,7 +258,7 @@ namespace NDS_JSON_Parser
                     string myStringWebResource = "https://art.gametdb.com/ds/coverDS/" + CountryCode + "/" + gameID + ".bmp";
                     // Download the Web resource and save it into the current filesystem folder.
                     System.IO.Directory.CreateDirectory("Coverart");
-                    myWebClient.DownloadFile(myStringWebResource, "Coverart/" + gameID);
+                    myWebClient.DownloadFile(myStringWebResource, "Coverart/" + gameID + ".bmp");
                 }
                 return true;
             }
@@ -321,7 +321,7 @@ namespace NDS_JSON_Parser
 
                 if (coverartdownload == true)
                 {
-                    pboxArtwork.Image = new Bitmap("Coverart/" + gameID);
+                    pboxArtwork.Image = new Bitmap("Coverart/" + gameID + ".bmp");
                 }
                 
 
