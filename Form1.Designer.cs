@@ -72,6 +72,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pboxArtwork = new System.Windows.Forms.PictureBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dgvSearchResults = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlieses)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -80,6 +83,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvSDCardTesters)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxArtwork)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResults)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -439,7 +443,7 @@
             // 
             this.pnlGameInfo.Controls.Add(this.groupBox1);
             this.pnlGameInfo.Controls.Add(this.groupBox2);
-            this.pnlGameInfo.Location = new System.Drawing.Point(12, 89);
+            this.pnlGameInfo.Location = new System.Drawing.Point(12, 133);
             this.pnlGameInfo.Name = "pnlGameInfo";
             this.pnlGameInfo.Size = new System.Drawing.Size(1061, 449);
             this.pnlGameInfo.TabIndex = 5;
@@ -486,6 +490,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(1085, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -510,11 +515,47 @@
             this.pboxArtwork.TabIndex = 7;
             this.pboxArtwork.TabStop = false;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(265, 44);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(55, 13);
+            this.label15.TabIndex = 7;
+            this.label15.Text = "Enter Title";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(351, 41);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(137, 20);
+            this.textBox1.TabIndex = 8;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // dgvSearchResults
+            // 
+            this.dgvSearchResults.AllowUserToAddRows = false;
+            this.dgvSearchResults.AllowUserToDeleteRows = false;
+            this.dgvSearchResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSearchResults.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvSearchResults.Location = new System.Drawing.Point(510, 31);
+            this.dgvSearchResults.MultiSelect = false;
+            this.dgvSearchResults.Name = "dgvSearchResults";
+            this.dgvSearchResults.ReadOnly = true;
+            this.dgvSearchResults.RowHeadersVisible = false;
+            this.dgvSearchResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSearchResults.Size = new System.Drawing.Size(563, 96);
+            this.dgvSearchResults.TabIndex = 9;
+            this.dgvSearchResults.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSearchResults_CellClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1085, 549);
+            this.ClientSize = new System.Drawing.Size(1085, 602);
+            this.Controls.Add(this.dgvSearchResults);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.pnlGameInfo);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtGameID);
@@ -536,6 +577,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxArtwork)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResults)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -586,6 +628,9 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openRomToolStripMenuItem;
         private System.Windows.Forms.PictureBox pboxArtwork;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.DataGridView dgvSearchResults;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Json;
@@ -9,6 +10,8 @@ namespace NDS_JSON_Parser
 {
     public partial class Form1 : Form
     {
+        public string fullJSON = "";
+        public JsonValue full;
         public Form1()
         {
             InitializeComponent();
@@ -17,6 +20,11 @@ namespace NDS_JSON_Parser
         private void Form1_Load(object sender, EventArgs e)
         {
             fileToolStripMenuItem.Visible = false; //For now..This is currently broken.  
+            //get full JSON to allow searching by title...
+            WebClient client = new WebClient();
+            fullJSON = client.DownloadString("http://nds-library-api.glitch.me/");
+            full = JsonValue.Parse(fullJSON);
+
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -126,6 +134,13 @@ namespace NDS_JSON_Parser
                                     lblSlot1Compatibility.Text = "No Info Available for Slot-1";
                                     lblSlot1Compatibility.ForeColor = Color.Red;
                                 }
+
+                                //make display not look like crap if nothing available for either SD card or Slot-1
+                                if (lblSDCardCompatibility.Text != "" && lblSlot1Compatibility.Text != "")
+                                {
+                                    lblSlot1Compatibility.Text = "";
+                                    lblSDCardCompatibility.Text = "No Info Available for SD Card or Slot-1";
+                                }
    
                             }
 
@@ -172,6 +187,13 @@ namespace NDS_JSON_Parser
                                 {
                                     lblDSiCompatibility.Text = "No Info Available for DSi";
                                     lblDSiCompatibility.ForeColor = Color.Red;
+                                }
+
+                                //make the display not look like crap if both dsi and 3ds are unavailable...
+                                if (lblDSiCompatibility.Text != "" && lbl3dsCompatibility.Text != "")
+                                {
+                                    lblDSiCompatibility.Text = "";
+                                    lbl3dsCompatibility.Text = "No Info Available for 3DS or DSi";
                                 }
                             }
 
@@ -371,6 +393,43 @@ namespace NDS_JSON_Parser
                     }
                 }
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+            
+        {
+            pnlGameInfo.Visible = false;
+            DataTable searchResults = new DataTable();
+            searchResults.Columns.Add("Title");
+            searchResults.Columns.Add("CardID");
+            searchResults.Columns.Add("Region");
+
+            foreach (KeyValuePair<string, JsonValue> value in full)
+            {
+                JsonValue v = full[value.Key];
+                if (v["title"].ToString().ToUpper().Contains(textBox1.Text.ToUpper()))
+                {
+                    searchResults.Rows.Add(v["title"].ToString().Substring(1, v["title"].ToString().Length - 2), value.Key, v["region"].ToString().Substring(1, v["region"].ToString().Length - 2));
+                }
+            }
+
+
+          
+            dgvSearchResults.DataSource = searchResults;
+            dgvSearchResults.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void dgvSearchResults_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int row = e.RowIndex;
+            string text = dgvSearchResults.Rows[row].Cells[1].Value.ToString();
+            txtGameID.Text = text;
+            btnSearch.PerformClick();
         }
     }
 }
