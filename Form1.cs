@@ -19,7 +19,7 @@ namespace NDS_JSON_Parser
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            fileToolStripMenuItem.Visible = false; //For now..This is currently broken.  
+            
             //get full JSON to allow searching by title...
             WebClient client = new WebClient();
             fullJSON = client.DownloadString("http://nds-library-api.glitch.me/");
@@ -357,41 +357,29 @@ namespace NDS_JSON_Parser
             DialogResult r = d.ShowDialog();
             if (r == DialogResult.OK)
             {
-                string fpath = d.FileName;
-                string gameID = "";
-                using (System.IO.BinaryReader b = new System.IO.BinaryReader(System.IO.File.Open(fpath, System.IO.FileMode.Open)))
+                try
                 {
-
-                    //TODO: Fix this.  It doesn't work as expected...idea is to read in the bytes at positions 0x0000000c-0x0000000f and write out the character values, then pull them into the search box and perform the search function.
-                    int pos = 10;
-                    int length = 15;
-                    byte[] tmp = b.ReadBytes(16);
-                    try
+                    string fpath = d.FileName;
+                    string gameID = "";
+                    using (System.IO.BinaryReader b = new System.IO.BinaryReader(System.IO.File.Open(fpath, System.IO.FileMode.Open)))
                     {
-                        while (pos <=length)
-                        {
-                            switch(pos)
-                            {
-                                case 12:
-                                case 13:
-                                case 14:
-                                case 15:
-                                    gameID += BitConverter.ToString(tmp,pos);
 
-                                    break;
-                                default:
-                                    break;
-                            }
-                                
-
-                            pos = pos + 1;
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Could not get Game ID!");
+                        byte[] tmp = b.ReadBytes(16);
+                        byte[] tmp2 = new byte[4];
+                        tmp2[0] = tmp[12];
+                        tmp2[1] = tmp[13];
+                        tmp2[2] = tmp[14];
+                        tmp2[3] = tmp[15];
+                        gameID = System.Text.Encoding.UTF8.GetString(tmp2);
+                        txtGameID.Text = gameID;
+                        btnSearch.PerformClick();
                     }
                 }
+                catch
+                {
+                    MessageBox.Show("Could not successfully retrieve game ID!");
+                }
+                
             }
         }
 
