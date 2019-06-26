@@ -277,10 +277,10 @@ namespace NDS_JSON_Parser
             {
                 using (WebClient myWebClient = new WebClient())
                 {
-                    string myStringWebResource = "https://art.gametdb.com/ds/coverDS/" + CountryCode + "/" + gameID + ".bmp";
+                    string myStringWebResource = "https://art.gametdb.com/ds/coverS/" + CountryCode + "/" + gameID + ".png";
                     // Download the Web resource and save it into the current filesystem folder.
                     System.IO.Directory.CreateDirectory("Coverart");
-                    myWebClient.DownloadFile(myStringWebResource, "Coverart/" + gameID + ".bmp");
+                    myWebClient.DownloadFile(myStringWebResource, "Coverart/" + gameID + ".png");
                 }
                 return true;
             }
@@ -292,10 +292,10 @@ namespace NDS_JSON_Parser
         }
         private void getCoverart(string gameID)
         {
-            //try and grab coverart locally first, if that fails grab it from https://art.gametdb.com/ds/coverDS/%s/%s.bmp
+            //try and grab coverart locally first, if that fails grab it from https://art.gametdb.com/ds/coverS/%s/%s.png
             try
             {
-                pboxArtwork.Image = Image.FromFile("Coverart/" + gameID + ".bmp");
+                pboxArtwork.Image = Image.FromFile("Coverart/" + gameID + ".png");
                 
             }
             catch (Exception e)
@@ -343,7 +343,7 @@ namespace NDS_JSON_Parser
 
                 if (coverartdownload == true)
                 {
-                    pboxArtwork.Image = new Bitmap("Coverart/" + gameID + ".bmp");
+                    pboxArtwork.Image = new Bitmap("Coverart/" + gameID + ".png");
                 }
                 
 
